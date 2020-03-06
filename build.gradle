@@ -1,0 +1,91 @@
+buildscript {
+    apply from: 'dependencies.gradle'
+
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'kotlin'
+
+group 'com.nrojiani'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    /* Source Dependencies */
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    // Log4J 2
+    implementation "org.apache.logging.log4j:log4j-core:$log4jVersion"
+    implementation "org.apache.logging.log4j:log4j-api:$log4jVersion"
+
+    // Jackson
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
+
+    // Guava
+    implementation "com.google.guava:guava:$guavaVersion"
+
+    // Apache Libraries
+    implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+
+    // Vavr
+    implementation "io.vavr:vavr:$vavrVersion"
+
+    // JetBrains Annotations
+    compileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+
+    /* Test Dependencies */
+    testImplementation "io.kotest:kotest-runner-junit5:$kotestVersion"
+    testImplementation "io.kotest:kotest-assertions-jvm:$kotestVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+    testImplementation "com.google.truth:truth:$truthVersion"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        exceptionFormat = 'full'
+        events = ["passed", "failed", "skipped"]
+    }
+
+    // Fail the 'test' task on the first test failure
+    failFast = true
+}
+
+idea {
+    module {
+        // When building the project in IntelliJ, use the same output path as Gradle.
+        inheritOutputDirs = false
+        outputDir = compileJava.destinationDir
+        testOutputDir = compileTestJava.destinationDir
+        downloadJavadoc = true
+        downloadSources = true
+    }
+
+    project {
+        jdkName = "1.8"
+        languageLevel = "1.8"
+        vcs = "Git"
+    }
+}
+
