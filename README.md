@@ -1,8 +1,9 @@
 Interview Questions
 ===================
 
-**Instructions**: TODO
-
+**Instructions**:  
+Implement the 2 questions in classes DeleteNodesGreaterThanX.java & PermutationsGenerator.java  
+Unit Tests have been provided for you.
 
 **Executing Tests**:
 
